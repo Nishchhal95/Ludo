@@ -12,4 +12,7 @@ public class EventsManager
 
     public delegate void OnTurnComplete();
     public static OnTurnComplete onTurnComplete;
+
+    public delegate void OnDiceRollComplete(int number);
+    public static OnDiceRollComplete onDiceRollComplete;
 }

@@ -51,6 +51,7 @@ public class Dice : MonoBehaviour
             diceGFX.sprite = sprites[targetRollNumber - 1];
             roll = false;
             rollNumber = targetRollNumber;
+            EventsManager.onDiceRollComplete?.Invoke(targetRollNumber);
             ResetRoll();
         }
         currentRollDuration -= Time.deltaTime;

@@ -720,8 +720,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 165235340}
-  - component: {fileID: 165235341}
-  - component: {fileID: 165235342}
   - component: {fileID: 165235343}
   - component: {fileID: 165235344}
   m_Layer: 0
@@ -745,101 +743,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &165235341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165235339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bae36ff4f3a4f614aa97281cbc57532e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  colors:
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0, a: 1}
-  - {r: 1, g: 1, b: 0, a: 1}
-  - {r: 0, g: 1, b: 1, a: 1}
-  boardColorDatas:
-  - {fileID: 1886017022}
-  - {fileID: 964586164}
-  - {fileID: 169079988}
-  - {fileID: 2020292815}
-  playerIdArray: 00000000010000000200000003000000
---- !u!114 &165235342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 165235339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2022fda5731755542a1db9a9d58c0e3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boardColorDatas:
-  - {fileID: 1886017022}
-  - {fileID: 964586164}
-  - {fileID: 169079988}
-  - {fileID: 2020292815}
-  piecePrefab: {fileID: 5600626354138056205, guid: fef9f643a04e2254a944833acc1142e8,
-    type: 3}
-  pathPiecesList:
-  - {fileID: 1402435528}
-  - {fileID: 700261637}
-  - {fileID: 678099265}
-  - {fileID: 2033640932}
-  - {fileID: 78246389}
-  - {fileID: 293551293}
-  - {fileID: 16857696}
-  - {fileID: 131844314}
-  - {fileID: 1501932459}
-  - {fileID: 516034032}
-  - {fileID: 1811340822}
-  - {fileID: 2096897290}
-  - {fileID: 164917875}
-  - {fileID: 1114472430}
-  - {fileID: 1738310065}
-  - {fileID: 1789125345}
-  - {fileID: 1078269897}
-  - {fileID: 1340153076}
-  - {fileID: 1405382605}
-  - {fileID: 746550999}
-  - {fileID: 1518262468}
-  - {fileID: 1677652338}
-  - {fileID: 1464635609}
-  - {fileID: 901237877}
-  - {fileID: 1640626850}
-  - {fileID: 1870182969}
-  - {fileID: 2069708338}
-  - {fileID: 1422057031}
-  - {fileID: 476309374}
-  - {fileID: 1505901151}
-  - {fileID: 1914868045}
-  - {fileID: 204907435}
-  - {fileID: 665616605}
-  - {fileID: 701123967}
-  - {fileID: 1739672025}
-  - {fileID: 1144999544}
-  - {fileID: 491086470}
-  - {fileID: 190138170}
-  - {fileID: 1389518785}
-  - {fileID: 619382381}
-  - {fileID: 677329098}
-  - {fileID: 1929730724}
-  - {fileID: 1449905471}
-  - {fileID: 1438216024}
-  - {fileID: 598263809}
-  - {fileID: 1723034592}
-  - {fileID: 1228326090}
-  - {fileID: 1460456112}
-  - {fileID: 1635328928}
-  - {fileID: 811310571}
-  - {fileID: 772939039}
-  - {fileID: 749388606}
 --- !u!114 &165235343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,10 +767,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f50723c2d63c8c743a08b7325a261d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastPiece: {fileID: 0}
-  numberOfPlayers: 2
+  currentTurn: 0
   currentTurnID: 0
-  inGameIdArray: 
+  currentTurnColor: 0
+  currentDiceNumber: 0
+  players:
+  - ID: 0
+    boardColor: 0
+    slot: 0
+    pieces:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    boardArea: {fileID: 1886017022}
+  - ID: 1
+    boardColor: 1
+    slot: 1
+    pieces:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    boardArea: {fileID: 964586164}
+  - ID: 2
+    boardColor: 2
+    slot: 2
+    pieces:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    boardArea: {fileID: 169079988}
+  - ID: 3
+    boardColor: 3
+    slot: 3
+    pieces:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    boardArea: {fileID: 2020292815}
+  colorToEnums:
+  - color: {r: 1, g: 0, b: 0, a: 1}
+    boardColor: 0
+  - color: {r: 0, g: 1, b: 0, a: 1}
+    boardColor: 1
+  - color: {r: 1, g: 1, b: 0, a: 1}
+    boardColor: 2
+  - color: {r: 0, g: 0.6759999, b: 1, a: 1}
+    boardColor: 3
+  lastPiece: {fileID: 0}
 --- !u!1001 &166473207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -998,23 +948,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 169079986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e069648d916742428e3ec2168f8a8cf, type: 3}
+  m_Script: {fileID: 11500000, guid: a87646885cc3fa24d83c46ca011b301a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPieces:
+  baseImage: {fileID: 1335855250}
+  colorPath:
   - {fileID: 1834064777}
   - {fileID: 1560809597}
   - {fileID: 1494182924}
   - {fileID: 58469728}
   - {fileID: 166473209}
-  pieceHolderSprite: {fileID: 2048503853}
-  pieceHolders:
+  spawnPoints:
   - {fileID: 800391706}
   - {fileID: 2092512021}
   - {fileID: 1960065957}
   - {fileID: 464225737}
-  pieceSpawnPoint: {fileID: 1631483163}
-  endPoint: {fileID: 1435286476}
+  startPoint: {fileID: 1631483163}
 --- !u!114 &190138170 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -991620949566547663, guid: e23b7ae0931d9574c8cc08038306e4e7,
@@ -2937,6 +2886,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 635081876}
+  - component: {fileID: 635081877}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2964,6 +2914,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &635081877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635081875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2022fda5731755542a1db9a9d58c0e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardAreas:
+  - {fileID: 1886017022}
+  - {fileID: 964586164}
+  - {fileID: 169079988}
+  - {fileID: 2020292815}
+  numberOfPieces: 4
+  piecePrefab: {fileID: 5600626354138056205, guid: fef9f643a04e2254a944833acc1142e8,
+    type: 3}
+  pathPiecesList:
+  - {fileID: 1402435528}
+  - {fileID: 700261637}
+  - {fileID: 678099265}
+  - {fileID: 2033640932}
+  - {fileID: 78246389}
+  - {fileID: 293551293}
+  - {fileID: 16857696}
+  - {fileID: 131844314}
+  - {fileID: 1501932459}
+  - {fileID: 516034032}
+  - {fileID: 1811340822}
+  - {fileID: 2096897290}
+  - {fileID: 164917875}
+  - {fileID: 1114472430}
+  - {fileID: 1738310065}
+  - {fileID: 1789125345}
+  - {fileID: 1078269897}
+  - {fileID: 1340153076}
+  - {fileID: 1405382605}
+  - {fileID: 746550999}
+  - {fileID: 1518262468}
+  - {fileID: 1677652338}
+  - {fileID: 1464635609}
+  - {fileID: 901237877}
+  - {fileID: 1640626850}
+  - {fileID: 1870182969}
+  - {fileID: 2069708338}
+  - {fileID: 1422057031}
+  - {fileID: 476309374}
+  - {fileID: 1505901151}
+  - {fileID: 1914868045}
+  - {fileID: 204907435}
+  - {fileID: 665616605}
+  - {fileID: 701123967}
+  - {fileID: 1739672025}
+  - {fileID: 1144999544}
+  - {fileID: 491086470}
+  - {fileID: 190138170}
+  - {fileID: 1389518785}
+  - {fileID: 619382381}
+  - {fileID: 677329098}
+  - {fileID: 1929730724}
+  - {fileID: 1449905471}
+  - {fileID: 1438216024}
+  - {fileID: 598263809}
+  - {fileID: 1723034592}
+  - {fileID: 1228326090}
+  - {fileID: 1460456112}
+  - {fileID: 1635328928}
+  - {fileID: 811310571}
+  - {fileID: 772939039}
+  - {fileID: 749388606}
 --- !u!1001 &641877825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4475,23 +4498,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 964586162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e069648d916742428e3ec2168f8a8cf, type: 3}
+  m_Script: {fileID: 11500000, guid: a87646885cc3fa24d83c46ca011b301a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPieces:
+  baseImage: {fileID: 1755492952}
+  colorPath:
   - {fileID: 421515855}
   - {fileID: 1331177141}
   - {fileID: 471538011}
   - {fileID: 222519377}
   - {fileID: 1167695716}
-  pieceHolderSprite: {fileID: 1697035898}
-  pieceHolders:
+  spawnPoints:
   - {fileID: 1924464493}
   - {fileID: 122536070}
   - {fileID: 1262522109}
   - {fileID: 1606469652}
-  pieceSpawnPoint: {fileID: 340983022}
-  endPoint: {fileID: 2018572561}
+  startPoint: {fileID: 340983022}
 --- !u!1 &967310348
 GameObject:
   m_ObjectHideFlags: 0
@@ -8711,23 +8733,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1886017020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e069648d916742428e3ec2168f8a8cf, type: 3}
+  m_Script: {fileID: 11500000, guid: a87646885cc3fa24d83c46ca011b301a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPieces:
+  baseImage: {fileID: 760698670}
+  colorPath:
   - {fileID: 1440930578}
   - {fileID: 2145009824}
   - {fileID: 1225228575}
   - {fileID: 1498938909}
   - {fileID: 905408538}
-  pieceHolderSprite: {fileID: 858745851}
-  pieceHolders:
+  spawnPoints:
   - {fileID: 1901274073}
   - {fileID: 2066475794}
   - {fileID: 355348362}
   - {fileID: 967310350}
-  pieceSpawnPoint: {fileID: 624096578}
-  endPoint: {fileID: 1339134716}
+  startPoint: {fileID: 624096578}
 --- !u!1 &1901274072
 GameObject:
   m_ObjectHideFlags: 0
@@ -9415,23 +9436,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2020292813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e069648d916742428e3ec2168f8a8cf, type: 3}
+  m_Script: {fileID: 11500000, guid: a87646885cc3fa24d83c46ca011b301a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPieces:
+  baseImage: {fileID: 1120665632}
+  colorPath:
   - {fileID: 273651665}
   - {fileID: 1655515026}
   - {fileID: 1038849272}
   - {fileID: 1820541704}
   - {fileID: 557480210}
-  pieceHolderSprite: {fileID: 81915203}
-  pieceHolders:
+  spawnPoints:
   - {fileID: 1078625844}
   - {fileID: 1727301802}
   - {fileID: 703770676}
   - {fileID: 243738590}
-  pieceSpawnPoint: {fileID: 1407100974}
-  endPoint: {fileID: 1866296648}
+  startPoint: {fileID: 1407100974}
 --- !u!1 &2024609990
 GameObject:
   m_ObjectHideFlags: 0

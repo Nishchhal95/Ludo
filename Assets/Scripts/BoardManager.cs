@@ -6,7 +6,9 @@ public class BoardManager : MonoBehaviour
 {
     public static BoardManager Instance = null;
 
-    public BoardColorData[] boardColorDatas;
+    public BoardArea[] boardAreas = new BoardArea[4];
+
+    public int numberOfPieces = 4;
     public Piece piecePrefab;
 
     public List<PathPiece> pathPiecesList = new List<PathPiece>();
@@ -32,12 +34,12 @@ public class BoardManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventsManager.onColorsSet += SetupBoard;
+        
     }
 
     private void OnDisable()
     {
-        EventsManager.onColorsSet -= SetupBoard;
+        
     }
 
     // Update is called once per frame
@@ -46,20 +48,25 @@ public class BoardManager : MonoBehaviour
         
     }
 
-    private void SetupBoard()
+    public void SetupBoard(Player[] players)
     {
-        if(boardColorDatas != null && boardColorDatas.Length > 0)
+        for (int i = 0; i < players.Length; i++)
         {
-            for (int i = 0; i < boardColorDatas.Length; i++)
+            boardAreas[i].BoardColor = players[i].boardColor;
+        }
+
+        SpawnPieces(players);
+    }
+
+    private void SpawnPieces(Player[] players)
+    {
+        for (int i = 0; i < players.Length; i++)
+        {
+            for (int j = 0; j < numberOfPieces; j++)
             {
-                for (int j = 0; j < boardColorDatas[i].pieceHolders.Length; j++)
-                {
-                    Vector2 pos = boardColorDatas[i].pieceHolders[j].position;
-                    Piece piece = Instantiate(piecePrefab, pos , Quaternion.identity);
-                    piece.Color = boardColorDatas[i].Color;
-                    piece.spawnPoint = boardColorDatas[i].pieceSpawnPoint;
-                    piece.PlayerID = ColorManager.colorToIdDictionary[boardColorDatas[i].Color];
-                }
+                players[i].pieces[j] = Instantiate(piecePrefab, players[i].boardArea.spawnPoints[j].position, Quaternion.identity);
+                players[i].pieces[j].BoardColor = players[i].boardColor;
+                players[i].pieces[j].currentPathPiece = players[i].boardArea.startPoint.GetComponent<PathPiece>();
             }
         }
     }

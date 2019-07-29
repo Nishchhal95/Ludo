@@ -7,20 +7,20 @@ public class Piece : MonoBehaviour
     private SpriteRenderer pieceGFXRender;
     public Transform spawnPoint;
 
-    public Color Color
+    public BoardColor BoardColor
     {
         get
         {
-            return color;
+            return boardColor;
         }
 
         set
         {
-            color = value;
+            boardColor = value;
             UpdateColor();
         }
     }
-    private Color color;
+    private BoardColor boardColor;
 
     public bool IsOpen { get { return isOpen; } set { isOpen = value; } }
     private bool isOpen = false;
@@ -28,10 +28,8 @@ public class Piece : MonoBehaviour
     public int PlayerID { get { return playerID; } set { playerID = value; } }
     private int playerID;
 
-    private PathPiece currentPos;
+    public PathPiece currentPathPiece;
     private int currentIndex;
-
-    public int unitsToMove = 2;
 
     private bool move = false;
     private Queue<Vector3> positionToMoveList = new Queue<Vector3>();
@@ -45,8 +43,7 @@ public class Piece : MonoBehaviour
 
     void Start()
     {
-        currentPos = spawnPoint.gameObject.GetComponent<PathPiece>();
-        currentIndex = BoardManager.Instance.pathPiecesList.FindIndex(x => x == currentPos);
+        currentIndex = BoardManager.Instance.pathPiecesList.FindIndex(x => x == currentPathPiece);
     }
 
     void Update()
@@ -72,23 +69,37 @@ public class Piece : MonoBehaviour
 
     private void UpdateColor()
     {
+        Color color = _GameManager.Instance.GetColorFromEnum(boardColor);
+
+        if(color != Color.white)
         pieceGFXRender.color = color;
     }
 
-    public void Select()
+    public void Select(int diceValue)
     {
         //pieceGFXRender.color = Color.black;
         transform.localScale = new Vector3(1.3f, 1.3f, 1);
-        if (!IsOpen)
+
+        if(diceValue == 6 || diceValue == 1)
         {
-            OpenPiece();
+            if (!IsOpen)
+            {
+                OpenPiece();
+            }
+
+            return;
         }
 
-        else
+        if(diceValue != 6 && diceValue != 1)
         {
-            unitsToMove = Dice.Instance.rollNumber;
-            MovePiece(unitsToMove);
+            Debug.Log("Not 1 or 6");
+            if (isOpen)
+            {
+                Debug.Log("Moving " + diceValue + " units");
+                MovePiece(diceValue);
+            }
         }
+
     }
 
     public void Deselect()
@@ -102,7 +113,14 @@ public class Piece : MonoBehaviour
         if (!IsOpen)
         {
             IsOpen = true;
-            transform.position = spawnPoint.position;
+
+            Vector2 spawnPos = _GameManager.Instance.GetPieceSpawnPointFromColor(boardColor);
+
+            if(spawnPos != new Vector2())
+            {
+                transform.position = spawnPos;
+            }
+
             Deselect();
             EventsManager.onTurnComplete?.Invoke();
         }
@@ -121,30 +139,8 @@ public class Piece : MonoBehaviour
 
             positionToMoveList.Enqueue(BoardManager.Instance.pathPiecesList[currentIndex].transform.position);
         }
+
         targetPos = positionToMoveList.Dequeue();
         move = true;
-        //StartCoroutine(MovePieceRoutine(units));
-    }
-
-    private IEnumerator MovePieceRoutine(int units)
-    {
-        //if (currentIndex + units > BoardManager.Instance.pathPiecesList.Count - 1)
-        //{
-        //    currentIndex = (currentIndex + units) % BoardManager.Instance.pathPiecesList.Count;
-        //}
-        //else
-        //{
-        //    currentIndex += units;
-        //}
-
-
-        while (units > 0)
-        {
-            currentIndex++;
-            units--;
-
-            //transform.position = BoardManager.Instance.pathPiecesList[currentIndex].transform.position;
-            yield return null;
-        }
     }
 }
