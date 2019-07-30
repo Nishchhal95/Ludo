@@ -15,4 +15,7 @@ public class EventsManager
 
     public delegate void OnDiceRollComplete(int number);
     public static OnDiceRollComplete onDiceRollComplete;
+
+    public delegate void OnPieceOpen();
+    public static OnPieceOpen onPieceOpen;
 }

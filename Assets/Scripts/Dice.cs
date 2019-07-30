@@ -16,6 +16,8 @@ public class Dice : MonoBehaviour
     public SpriteRenderer diceGFX;
     public bool roll;
 
+    public Animator diceAnimator;
+
     private void Awake()
     {
         if(Instance == null)
@@ -46,27 +48,27 @@ public class Dice : MonoBehaviour
 
     private void RollDice()
     {
-        if(currentRollDuration <= 0)
-        {
-            diceGFX.sprite = sprites[targetRollNumber - 1];
-            roll = false;
-            rollNumber = targetRollNumber;
-            EventsManager.onDiceRollComplete?.Invoke(targetRollNumber);
-            ResetRoll();
-        }
         currentRollDuration -= Time.deltaTime;
-        if(Time.frameCount % 5 == 0)
-        diceGFX.sprite = sprites[Random.Range(0, sprites.Length)];
+        if (currentRollDuration <= 0)
+        {
+            rollNumber = targetRollNumber;
+            roll = false;
+            ResetRoll();
+            diceGFX.sprite = sprites[targetRollNumber - 1];
+            EventsManager.onDiceRollComplete?.Invoke(rollNumber);
+        }
     }
 
     private void ResetRoll()
     {
-        currentRollDuration = rollDuration;
-        targetRollNumber = Random.Range(1, 7);
+        diceAnimator.enabled = false;
     }
 
     public void Roll()
     {
+        currentRollDuration = rollDuration;
+        targetRollNumber = Random.Range(1, 7);
         roll = true;
+        diceAnimator.enabled = true;
     }
 }

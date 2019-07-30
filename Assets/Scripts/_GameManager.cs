@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class _GameManager : MonoBehaviour
 {
@@ -19,9 +20,12 @@ public class _GameManager : MonoBehaviour
 
     public Piece lastPiece = null;
 
+
+    public Text currentTurnText;
+
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -38,6 +42,8 @@ public class _GameManager : MonoBehaviour
         currentTurnID = players[currentTurn].ID;
         currentTurnColor = players[currentTurn].boardColor;
         SetupBoard();
+
+        UpdateCanvas(currentTurnColor);
     }
 
     private void OnEnable()
@@ -45,18 +51,21 @@ public class _GameManager : MonoBehaviour
         EventsManager.onPieceSelected += PieceSelected;
         EventsManager.onTurnComplete += SwitchTurn;
         EventsManager.onDiceRollComplete += DiceRolled;
+        EventsManager.onPieceOpen += PieceOpened;
     }
 
     private void OnDisable()
     {
         EventsManager.onPieceSelected -= PieceSelected;
         EventsManager.onTurnComplete -= SwitchTurn;
+        EventsManager.onDiceRollComplete -= DiceRolled;
+        EventsManager.onPieceOpen -= PieceOpened;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void SetupBoard()
@@ -66,35 +75,45 @@ public class _GameManager : MonoBehaviour
 
     public void RollDice()
     {
-        Dice.Instance.roll = true;
+        Dice.Instance.Roll();
     }
 
     public void SwitchTurn()
     {
         diceRolled = false;
-        currentTurn++;
-
-        if(currentTurn == players.Length)
+        if (currentDiceNumber != 6)
         {
-            currentTurn = 0;
+            currentTurn++;
+
+            if (currentTurn == players.Length)
+            {
+                currentTurn = 0;
+            }
+
+            currentTurnID = players[currentTurn].ID;
+            currentTurnColor = players[currentTurn].boardColor;
+
+            UpdateCanvas(currentTurnColor);
         }
+    }
 
-        currentTurnID = players[currentTurn].ID;
-        currentTurnColor = players[currentTurn].boardColor;
-
+    private void UpdateCanvas(BoardColor boardColor)
+    {
+        currentTurnText.text = boardColor.ToString();
+        currentTurnText.color = GetColorFromEnum(boardColor);
     }
 
     private void PieceSelected(Piece piece)
     {
-        if(lastPiece != null)
+        if (lastPiece != null)
         {
             lastPiece.Deselect();
         }
 
-        if(piece.BoardColor == currentTurnColor && diceRolled)
+        if (piece.BoardColor == currentTurnColor && diceRolled)
         {
             piece.Select(currentDiceNumber);
-            diceRolled = false;
+            lastPiece = piece;
         }
     }
 
@@ -103,26 +122,12 @@ public class _GameManager : MonoBehaviour
         diceRolled = true;
         currentDiceNumber = diceNumber;
 
-        int closeCount = 0;
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (!players[currentTurn].pieces[i].IsOpen)
-            {
-                closeCount++;
-            }
-        }
-
-        if (closeCount == 4 && (diceNumber == 6 || diceNumber == 1))
-        {
-            players[currentTurn].pieces[0].Select(diceNumber);
-        }
-
-        Debug.Log("Dice Number " + diceNumber + " and Close Count " + closeCount);
-        if(closeCount == 4 && diceNumber != 6 && diceNumber != 1)
+        //If No move Left then Switch Turn
+        if(!IsMoveLeft(diceNumber))
         {
             SwitchTurn();
         }
+
         //Check Whose Turn it is
 
         //Let Player Select a Piece 
@@ -132,11 +137,62 @@ public class _GameManager : MonoBehaviour
         //Switch Turn
     }
 
+    private void PieceOpened()
+    {
+        players[currentTurn].numberOfOpenPieces++;
+    }
+
+    private bool IsMoveLeft(int diceNumber)
+    {
+        //Check If we all Pieces Closed
+        if (players[currentTurn].numberOfOpenPieces == 0)
+        {
+            //If All Pieces Closed Then if we get an Open Number the
+            if(IsOpenNumber(diceNumber))
+            {
+                //We Have an Open Number and opened a Piece because we have all pieces locked
+                Debug.Log("Opened a Piece");
+                return true;
+            }
+
+            else
+            {
+                //We have no pieces Open Plus there is no open Number on the dice
+                //No moves left
+                return false;
+            }
+        }
+
+        else
+        {
+            //We have Move left
+            return true;
+        }
+
+
+        return false;
+    }
+
+    public bool IsOpenNumber(int diceNumber)
+    {
+        if (diceNumber == 6 || diceNumber == 1)
+        {
+            //We Can Open A piece
+            Debug.Log("Can Open a Piece");
+            players[currentTurn].pieces[0].Select(diceNumber);
+
+            //OtherWise Let the User Make a Move
+            return true;
+        }
+
+        return false;
+    }
+
     public Color GetColorFromEnum(BoardColor boardColor)
     {
         for (int i = 0; i < colorToEnums.Length; i++)
         {
-            if(colorToEnums[i].boardColor == boardColor)
+            if (colorToEnums[i].boardColor == boardColor)
             {
                 return colorToEnums[i].color;
             }
@@ -149,7 +205,7 @@ public class _GameManager : MonoBehaviour
     {
         for (int i = 0; i < players.Length; i++)
         {
-            if(players[i].boardColor == boardColor)
+            if (players[i].boardColor == boardColor)
             {
                 return players[i].boardArea.startPoint.position;
             }

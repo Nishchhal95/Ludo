@@ -80,23 +80,17 @@ public class Piece : MonoBehaviour
         //pieceGFXRender.color = Color.black;
         transform.localScale = new Vector3(1.3f, 1.3f, 1);
 
-        if(diceValue == 6 || diceValue == 1)
+        if(isOpen)
         {
-            if (!IsOpen)
-            {
-                OpenPiece();
-            }
-
-            return;
+            Debug.Log("Moving " + diceValue + " units");
+            MovePiece(diceValue);
         }
 
-        if(diceValue != 6 && diceValue != 1)
+        else
         {
-            Debug.Log("Not 1 or 6");
-            if (isOpen)
+            if (diceValue == 6 || diceValue == 1)
             {
-                Debug.Log("Moving " + diceValue + " units");
-                MovePiece(diceValue);
+                OpenPiece();
             }
         }
 
@@ -122,6 +116,8 @@ public class Piece : MonoBehaviour
             }
 
             Deselect();
+
+            EventsManager.onPieceOpen?.Invoke();
             EventsManager.onTurnComplete?.Invoke();
         }
     }
